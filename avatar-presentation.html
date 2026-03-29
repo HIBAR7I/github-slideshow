@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présentation de Raouhi Nada</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            gap: 30px;
+        }
+
+        .avatar-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .avatar-circle.speaking {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        .avatar-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .text-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .text-section p {
+            margin-bottom: 15px;
+        }
+
+        .text-section p.highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            display: inline;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            font-size: 1.1em;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .recording-indicator {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            background: #dc3545;
+            color: white;
+            border-radius: 10px;
+            margin: 10px 20px;
+        }
+
+        .recording-indicator.active {
+            display: flex;
+        }
+
+        .recording-dot {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .avatar-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .avatar-circle {
+                width: 180px;
+                height: 180px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .text-section {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Présentation de Raouhi Nada 🎨</h1>
+            <p>Une jeune artiste passionnée du Maroc</p>
+        </div>
+
+        <div class="recording-indicator" id="recordingIndicator">
+            <div class="recording-dot"></div>
+            <span>Enregistrement en cours...</span>
+        </div>
+
+        <div class="content">
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    <div class="avatar-circle" id="avatarCircle">
+                        <svg class="avatar-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Face -->
+                            <circle cx="100" cy="100" r="60" fill="#f4c2a0"/>
+                            
+                            <!-- Eyes -->
+                            <ellipse cx="85" cy="95" rx="8" ry="10" fill="#2c1810"/>
+                            <ellipse cx="115" cy="95" rx="8" ry="10" fill="#2c1810"/>
+                            <circle cx="87" cy="93" r="3" fill="white"/>
+                            <circle cx="117" cy="93" r="3" fill="white"/>
+                            
+                            <!-- Eyebrows -->
+                            <path d="M 75 85 Q 85 82 95 85" stroke="#2c1810" stroke-width="2" fill="none"/>
+                            <path d="M 105 85 Q 115 82 125 85" stroke="#2c1810" stroke-width="2" fill="none"/>
+                            
+                            <!-- Nose -->
+                            <path d="M 100 100 L 95 110 L 100 112 L 105 110 Z" fill="#e0a080"/>
+                            
+                            <!-- Mouth -->
+                            <path d="M 85 120 Q 100 128 115 120" stroke="#c1503a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                            
+                            <!-- Hijab -->
+                            <ellipse cx="100" cy="60" rx="70" ry="50" fill="#8b4789"/>
+                            <ellipse cx="100" cy="55" rx="65" ry="45" fill="#9b5799"/>
+                            <path d="M 30 60 Q 30 120 50 140 L 50 200 L 150 200 L 150 140 Q 170 120 170 60 Z" fill="#8b4789"/>
+                            
+                            <!-- Hijab decorative pattern -->
+                            <circle cx="100" cy="50" r="3" fill="#d4a5d3" opacity="0.6"/>
+                            <circle cx="90" cy="55" r="2" fill="#d4a5d3" opacity="0.6"/>
+                            <circle cx="110" cy="55" r="2" fill="#d4a5d3" opacity="0.6"/>
+                            <circle cx="85" cy="65" r="2" fill="#d4a5d3" opacity="0.6"/>
+                            <circle cx="115" cy="65" r="2" fill="#d4a5d3" opacity="0.6"/>
+                            
+                            <!-- Neck and shoulders -->
+                            <rect x="80" y="140" width="40" height="30" fill="#f4c2a0"/>
+                            <path d="M 50 170 Q 100 180 150 170 L 150 200 L 50 200 Z" fill="#7a3d78"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-section" id="textSection">
+                <p>Je m'appelle <span class="highlight">Raouhi Nada</span>, j'ai 14 ans et je suis en troisième au collège. Je viens du <span class="highlight">Maroc</span>, un pays super riche en culture et en art, ça m'inspire vachement dans ma vie de tous les jours.</p>
+                
+                <p>Depuis que je suis petite, je suis passionnée par l'art sous toutes ses formes. J'adore le dessin, la peinture, la musique et le théâtre. Ça me permet d'exprimer mes émotions, mes idées et mon imagination.</p>
+                
+                <p>Mon rêve, c'est de devenir une <span class="highlight">artiste connue</span>, pour partager ma créativité avec les autres et transmettre des messages à travers mes œuvres.</p>
+                
+                <p>Je me décrirais comme quelqu'un de créatif, patient et curieux. J'ai aussi un esprit imaginatif et sensible, ce qui m'aide à trouver de l'inspiration partout autour de moi. Ces qualités m'aident aussi à l'école, où j'aime apprendre et découvrir des trucs nouveaux, surtout dans les matières artistiques.</p>
+                
+                <p>Je pense que l'art, c'est pas juste une passion, c'est une <span class="highlight">façon de vivre et de comprendre le monde</span>.</p>
+            </div>
+        </div>
+
+        <div class="status" id="status">Prêt à commencer</div>
+
+        <div class="controls">
+            <button class="btn-primary" id="playBtn" onclick="startPresentation()">
+                ▶️ Démarrer la présentation
+            </button>
+            <button class="btn-secondary" id="stopBtn" onclick="stopPresentation()" disabled>
+                ⏹️ Arrêter
+            </button>
+            <button class="btn-success" id="recordBtn" onclick="startRecording()">
+                🎥 Enregistrer la vidéo
+            </button>
+            <button class="btn-secondary" id="downloadBtn" onclick="downloadVideo()" disabled style="display: none;">
+                💾 Télécharger la vidéo
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let isRecording = false;
+
+        const presentationText = `Je m'appelle Raouhi Nada, j'ai 14 ans et je suis en troisième au collège. Je viens du Maroc, un pays super riche en culture et en art, ça m'inspire vachement dans ma vie de tous les jours.
+
+Depuis que je suis petite, je suis passionnée par l'art sous toutes ses formes. J'adore le dessin, la peinture, la musique et le théâtre. Ça me permet d'exprimer mes émotions, mes idées et mon imagination.
+
+Mon rêve, c'est de devenir une artiste connue, pour partager ma créativité avec les autres et transmettre des messages à travers mes œuvres.
+
+Je me décrirais comme quelqu'un de créatif, patient et curieux. J'ai aussi un esprit imaginatif et sensible, ce qui m'aide à trouver de l'inspiration partout autour de moi. Ces qualités m'aident aussi à l'école, où j'aime apprendre et découvrir des trucs nouveaux, surtout dans les matières artistiques.
+
+Je pense que l'art, c'est pas juste une passion, c'est une façon de vivre et de comprendre le monde.`;
+
+        function startPresentation() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+
+            currentUtterance = new SpeechSynthesisUtterance(presentationText);
+            
+            // Configuration pour la voix française
+            currentUtterance.lang = 'fr-FR';
+            currentUtterance.rate = 0.9;
+            currentUtterance.pitch = 1.1;
+            currentUtterance.volume = 1;
+
+            // Essayer de trouver une voix féminine française
+            const voices = speechSynthesis.getVoices();
+            const frenchVoice = voices.find(voice => 
+                voice.lang.startsWith('fr') && voice.name.toLowerCase().includes('female')
+            ) || voices.find(voice => voice.lang.startsWith('fr'));
+            
+            if (frenchVoice) {
+                currentUtterance.voice = frenchVoice;
+            }
+
+            // Événements
+            currentUtterance.onstart = () => {
+                document.getElementById('avatarCircle').classList.add('speaking');
+                document.getElementById('status').textContent = '🎤 Présentation en cours...';
+                document.getElementById('playBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+            };
+
+            currentUtterance.onend = () => {
+                document.getElementById('avatarCircle').classList.remove('speaking');
+                document.getElementById('status').textContent = '✅ Présentation terminée !';
+                document.getElementById('playBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+                
+                if (isRecording) {
+                    setTimeout(() => {
+                        stopRecording();
+                    }, 500);
+                }
+            };
+
+            currentUtterance.onerror = (event) => {
+                console.error('Erreur de synthèse vocale:', event);
+                document.getElementById('status').textContent = '❌ Erreur lors de la lecture';
+                document.getElementById('avatarCircle').classList.remove('speaking');
+                document.getElementById('playBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+            };
+
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function stopPresentation() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            document.getElementById('avatarCircle').classList.remove('speaking');
+            document.getElementById('status').textContent = '⏸️ Présentation arrêtée';
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            
+            if (isRecording) {
+                stopRecording();
+            }
+        }
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { mediaSource: 'screen' },
+                    audio: true
+                });
+
+                recordedChunks = [];
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm;codecs=vp9'
+                });
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'presentation-raouhi-nada.webm';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    document.getElementById('recordingIndicator').classList.remove('active');
+                    document.getElementById('status').textContent = '💾 Vidéo enregistrée et téléchargée !';
+                    isRecording = false;
+                    
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                mediaRecorder.start();
+                isRecording = true;
+                document.getElementById('recordingIndicator').classList.add('active');
+                document.getElementById('recordBtn').disabled = true;
+                document.getElementById('status').textContent = '🎥 Enregistrement démarré - Cliquez sur "Démarrer la présentation"';
+
+                // Démarrer automatiquement la présentation après 2 secondes
+                setTimeout(() => {
+                    startPresentation();
+                }, 2000);
+
+            } catch (err) {
+                console.error('Erreur lors de l\'enregistrement:', err);
+                alert('Erreur: Impossible de démarrer l\'enregistrement. Assurez-vous d\'autoriser le partage d\'écran.');
+                document.getElementById('status').textContent = '❌ Erreur d\'enregistrement';
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        }
+
+        // Charger les voix disponibles
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = () => {
+                const voices = speechSynthesis.getVoices();
+                console.log('Voix disponibles:', voices.filter(v => v.lang.startsWith('fr')));
+            };
+        }
+
+        // Initialiser les voix au chargement
+        window.addEventListener('load', () => {
+            speechSynthesis.getVoices();
+        });
+    </script>
+</body>
+</html>

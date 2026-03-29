@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Vidéo vers Google Drive - Raouhi Nada</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .upload-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-input-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .file-name {
+            margin-top: 15px;
+            color: #333;
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+            margin-top: 20px;
+        }
+
+        .upload-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+        }
+
+        .upload-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .link-section {
+            display: none;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .link-section h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+
+        .link-section a {
+            color: #155724;
+            font-weight: bold;
+            word-break: break-all;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .note {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .note strong {
+            color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Upload vers Google Drive</h1>
+            <p>Uploadez votre vidéo de présentation directement sur Google Drive</p>
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-icon">☁️</div>
+            <h2>Sélectionnez votre vidéo</h2>
+            
+            <div class="file-input-wrapper">
+                <input type="file" id="videoFile" accept="video/*" />
+                <label for="videoFile" class="file-input-label">
+                    📁 Choisir une vidéo
+                </label>
+            </div>
+            
+            <div class="file-name" id="fileName">Aucun fichier sélectionné</div>
+            
+            <button class="upload-btn" id="uploadBtn" disabled>
+                🚀 Uploader vers Drive
+            </button>
+
+            <div class="spinner" id="spinner"></div>
+        </div>
+
+        <div class="progress-section" id="progressSection">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+            <p style="text-align: center; color: #666;" id="progressText">Préparation...</p>
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+
+        <div class="link-section" id="linkSection">
+            <h3>✅ Vidéo uploadée avec succès !</h3>
+            <p><strong>Lien de la vidéo :</strong></p>
+            <p><a href="#" id="driveLink" target="_blank"></a></p>
+            <p style="margin-top: 15px;">
+                <button onclick="copyLink()" style="padding: 10px 20px; background: #155724; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    📋 Copier le lien
+                </button>
+            </p>
+        </div>
+
+        <div class="instructions">
+            <h3>⚠️ Configuration requise</h3>
+            <ol>
+                <li><strong>Installer Ruby et les dépendances :</strong>
+                    <pre style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 5px;">bundle install</pre>
+                </li>
+                <li><strong>Obtenir les credentials Google :</strong>
+                    <ul style="margin-top: 5px;">
+                        <li>Allez sur <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a></li>
+                        <li>Créez un projet et activez l'API Google Drive</li>
+                        <li>Créez des identifiants OAuth 2.0</li>
+                        <li>Téléchargez le fichier JSON et renommez-le en <code>credentials.json</code></li>
+                        <li>Placez-le dans le dossier du projet</li>
+                    </ul>
+                </li>
+                <li><strong>Lancer le script Ruby :</strong>
+                    <pre style="background: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: 5px;">ruby upload_to_drive.rb</pre>
+                </li>
+            </ol>
+        </div>
+
+        <div class="note">
+            <strong>💡 Note :</strong> Cette page HTML est une interface visuelle. Pour uploader réellement vers Google Drive, 
+            vous devez utiliser le script Ruby <code>upload_to_drive.rb</code> dans votre terminal. 
+            Consultez <code>GUIDE-GOOGLE-DRIVE.md</code> pour les instructions complètes.
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('videoFile');
+        const fileName = document.getElementById('fileName');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressSection = document.getElementById('progressSection');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const statusMessage = document.getElementById('statusMessage');
+        const linkSection = document.getElementById('linkSection');
+        const driveLink = document.getElementById('driveLink');
+        const spinner = document.getElementById('spinner');
+
+        let selectedFile = null;
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                fileName.textContent = `📹 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                uploadBtn.disabled = false;
+            } else {
+                selectedFile = null;
+                fileName.textContent = 'Aucun fichier sélectionné';
+                uploadBtn.disabled = true;
+            }
+        });
+
+        uploadBtn.addEventListener('click', () => {
+            if (!selectedFile) return;
+
+            // Afficher un message d'information
+            showStatus('info', '⚠️ Cette interface est une démonstration visuelle. Pour uploader réellement vers Google Drive, utilisez le script Ruby dans votre terminal : <code>ruby upload_to_drive.rb</code>');
+            
+            // Simuler un upload pour la démo
+            simulateUpload();
+        });
+
+        function simulateUpload() {
+            uploadBtn.disabled = true;
+            progressSection.style.display = 'block';
+            spinner.style.display = 'block';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressFill.style.width = progress + '%';
+                progressFill.textContent = progress + '%';
+                
+                if (progress === 30) {
+                    progressText.textContent = 'Connexion à Google Drive...';
+                } else if (progress === 60) {
+                    progressText.textContent = 'Upload en cours...';
+                } else if (progress === 90) {
+                    progressText.textContent = 'Finalisation...';
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    spinner.style.display = 'none';
+                    progressText.textContent = 'Upload terminé !';
+                    
+                    // Afficher le message de succès
+                    setTimeout(() => {
+                        showStatus('success', '✅ Simulation terminée ! Pour un véritable upload, utilisez le script Ruby.');
+                        linkSection.style.display = 'block';
+                        driveLink.href = 'https://drive.google.com/';
+                        driveLink.textContent = 'https://drive.google.com/ (Lien de démonstration)';
+                        uploadBtn.disabled = false;
+                    }, 500);
+                }
+            }, 300);
+        }
+
+        function showStatus(type, message) {
+            statusMessage.className = 'status-message ' + type;
+            statusMessage.innerHTML = message;
+            statusMessage.style.display = 'block';
+        }
+
+        function copyLink() {
+            const link = driveLink.href;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('✅ Lien copié dans le presse-papiers !');
+            }).catch(() => {
+                alert('❌ Impossible de copier le lien. Copiez-le manuellement.');
+            });
+        }
+
+        // Message d'accueil
+        window.addEventListener('load', () => {
+            showStatus('info', '👋 Bienvenue ! Sélectionnez votre vidéo pour commencer. N\'oubliez pas de configurer Google Drive API d\'abord !');
+        });
+    </script>
+</body>
+</html>
